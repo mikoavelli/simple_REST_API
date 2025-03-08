@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+<button onclick="window.location.href='{{ url_for('main_bp.add_state_form') }}'">Add State</button>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Planet ID</th>
+        <th>Population</th>
+        <th>Area</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for state in states %}
+    <tr>
+        <td>{{ state.id }}</td>
+        <td>{{ state.name }}</td>
+        <td>{{ state.planet_id }}</td>
+        <td>{{ state.population }}</td>
+        <td>{{ state.area }}</td>
+        <td>
+            <a href="{{ url_for('main_bp.update_state_form', id=state.id) }}">Update</a>
+            <form action="{{ url_for('main_bp.delete_state') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="{{ state.id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

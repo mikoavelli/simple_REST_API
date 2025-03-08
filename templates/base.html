@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title if title else "My Site" }}</title>
+    <link rel="stylesheet">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('main_bp.index') }}">Main</a></li>
+            <li><a href="{{ url_for('main_bp.planets') }}">Planets</a></li>
+            <li><a href="{{ url_for('main_bp.governments') }}">Governments</a></li>
+            <li><a href="{{ url_for('main_bp.states') }}">States</a></li>
+            <li><a href="{{ url_for('main_bp.cities') }}">Cities</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

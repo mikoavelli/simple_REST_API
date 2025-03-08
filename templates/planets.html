@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<button onclick="window.location.href='{{ url_for('main_bp.add_planet_form') }}'">Add Planet</button>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Discovered date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for planet in planets %}
+    <tr>
+        <td>{{ planet.id }}</td>
+        <td>{{ planet.name }}</td>
+        <td>{{ planet.description }}</td>
+        <td>{{ planet.discovered_date }}</td>
+        <td>
+            <a href="{{ url_for('main_bp.update_planet_form', id=planet.id) }}">Update</a>
+            <form action="{{ url_for('main_bp.delete_planet') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="{{ planet.id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

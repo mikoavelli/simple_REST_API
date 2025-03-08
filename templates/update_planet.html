@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="{{ url_for('main_bp.update_planet', id=planet.id) }}" method="POST">
+    <label for="name">Name: </label>
+    <input type="text" min="0" id="name" name="name" required><br><br>
+    <label for="description">Description: </label>
+    <input type="text" min="0" id="description" name="description" required><br><br>
+    <label for="discovered_date">Discovered date: </label>
+    <input type="date" id="discovered_date" name="discovered_date" required><br><br>
+    <button type="submit">Save changes</button>
+</form>
+{% endblock %}

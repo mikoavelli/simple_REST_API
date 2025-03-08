@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: database
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  app-server:
+    build:
+      context: ./app_server
+      dockerfile: Dockerfile
+    container_name: app-server
+    environment:
+      CLIENT_LOGGING_LEVEL: ${CLIENT_LOGGING_LEVEL}
+      CLIENT_LOGGING_FILE: ${CLIENT_LOGGING_FILE}
+      CLIENT_SERVER_HOST: ${CLIENT_SERVER_HOST}
+      CLIENT_SERVER_PORT: ${CLIENT_SERVER_PORT}
+      CLIENT_DEBUG: ${CLIENT_DEBUG}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      - db
+    command: ["python", "app_server/app.py"]
+    ports:
+      - "${CLIENT_SERVER_PORT}:${CLIENT_SERVER_PORT}"
+    networks:
+      - app_network
+
+  rest-server:
+    build:
+      context: ./rest_server
+      dockerfile: Dockerfile
+    container_name: rest-server
+    environment:
+      REST_LOGGING_LEVEL: ${REST_LOGGING_LEVEL}
+      REST_LOGGING_FILE: ${REST_LOGGING_FILE}
+      REST_SERVER_HOST: ${REST_SERVER_HOST}
+      REST_SERVER_PORT: ${REST_SERVER_PORT}
+      REST_DEBUG: ${REST_DEBUG}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      - db
+    command: ["python", "rest_server/rest.py"]
+    ports:
+      - "${REST_SERVER_PORT}:${REST_SERVER_PORT}"
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:

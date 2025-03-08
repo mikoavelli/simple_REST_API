@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="{{ url_for('main_bp.add_city') }}" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    <label for="state_id">State ID:</label>
+    <input type="number" id="state_id" name="state_id" required><br><br>
+    <label for="population">Population:</label>
+    <input type="number" id="population" name="population" required><br><br>
+    <label for="founded_date">Founded Date:</label>
+    <input type="date" id="founded_date" name="founded_date" required><br><br>
+    <button type="submit">Add</button>
+</form>
+{% endblock %}
